@@ -25,31 +25,16 @@ app.use(express.json());
 
 /* ---------------- MAIL TRANSPORTER ---------------- */
 
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS,
-//   },
-// });
-
-
-
 const transporter = nodemailer.createTransport({
-  host: '://gmail.com', 
-  port: 465,
-  secure: true, 
-  
-  
-  connectionTimeout: 10000, 
-  family: 4,                
-  
+  service: "gmail",
+
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
 });
+
+
 
 /* Verify transporter connection */
 
