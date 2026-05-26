@@ -34,11 +34,17 @@ app.use(express.json());
 //   },
 // });
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+const nodemailer = require('nodemailer');
 
+const transporter = nodemailer.createTransport({
+  host: '://gmail.com', // or your specific provider
+  port: 465,
+  secure: true, // Use true for port 465, false for port 587
+  
+  // 🚀 CRUCIAL FIX FOR RENDER ENVIRONMENTS:
+  connectionTimeout: 10000, // Wait up to 10 seconds to connect
+  family: 4,                 // Force Node.js to use IPv4 instead of IPv6
+  
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
