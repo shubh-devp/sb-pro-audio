@@ -20,7 +20,7 @@ app.use(
     credentials: true,
   })
 );
-app.options("*", cors());
+app.options('{*splat}', cors());
 app.use(express.json());
 
 /* ---------------- MAIL TRANSPORTER ---------------- */
