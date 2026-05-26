@@ -159,7 +159,7 @@ const PRODUCTS = [
       "50Hz–20kHz",
       "Vocal Clarity",
     ],
-    imgSrc: "./public/assets/product/brainchord.jpg",
+    imgSrc: "./assets/product/brainchord.jpg",
     badge: "Best Seller",
   },
   {
@@ -173,7 +173,7 @@ const PRODUCTS = [
       "Deep Bass",
       "Club Ready",
     ],
-    imgSrc: "./public/assets/product/bronco.jpg",
+    imgSrc: "./assets/product/bronco.jpg",
     badge: "Pro Grade",
   },
   {
@@ -187,7 +187,7 @@ const PRODUCTS = [
       "USB Control",
       "Tour Safe",
     ],
-    imgSrc: "./public/assets/product/dexter.jpg",
+    imgSrc: "./assets/product/dexter.jpg",
     badge: "Studio",
   },
   {
@@ -201,7 +201,7 @@ const PRODUCTS = [
       "Bridgeable",
       "High Efficiency",
     ],
-    imgSrc: "./public/assets/product/meg.jpg",
+    imgSrc: "./assets/product/meg.jpg",
     badge: "Flagship",
   },
   {
@@ -215,7 +215,7 @@ const PRODUCTS = [
       "25Hz Response",
       "Earth Shaking",
     ],
-    imgSrc: "./public/assets/product/subs.jpg",
+    imgSrc: "./assets/product/subs.jpg",
     badge: "Extreme Bass",
   },
 ];
