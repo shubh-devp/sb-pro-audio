@@ -49,7 +49,7 @@ export default function Hero() {
         playsInline 
         className="hero__bg-video"
       >
-        <source src="/assets/heroSection/hero-bg.mp4" type="video/mp4" />
+        <source src="https://res.cloudinary.com/dxzpkr5up/video/upload/v1779796858/hero-bg_iphlmv.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
