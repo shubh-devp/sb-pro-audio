@@ -136,7 +136,7 @@ const SERVICES = [
     id: 1,
     title: "Professional Sound Systems",
     desc: "High-quality sound systems for concerts, events, weddings, clubs, and auditoriums with crystal-clear audio output.",
-    imgSrc: "./public/assets/service/soundSystem.jpg",
+    imgSrc: "./assets/service/soundSystem.jpg",
     tag: "Events & Live",
   },
   {
