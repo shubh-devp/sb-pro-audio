@@ -25,8 +25,19 @@ app.use(express.json());
 
 /* ---------------- MAIL TRANSPORTER ---------------- */
 
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS,
+//   },
+// });
+
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
 
   auth: {
     user: process.env.EMAIL_USER,
@@ -40,6 +51,7 @@ transporter.verify((error, success) => {
   if (error) {
     console.log("MAIL ERROR:");
     console.log(error);
+    console.log(error.message);
   } else {
     console.log("Mail server is ready");
   }
