@@ -2,8 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import "./Hero.css";
-// Replace with the correct relative path to your downloaded file
-import videoSource from "../../public/assets/heroSection/hero-bg.mp4"; 
+
 
 export default function Hero() {
   const heroRef = useRef(null);
