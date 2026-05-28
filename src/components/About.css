@@ -1,5 +1,5 @@
 .about {
-  padding: 120px 28px;
+  padding: 120px 24px;
   overflow: hidden;
   background: linear-gradient(
     to bottom,
@@ -18,9 +18,14 @@
   align-items: center;
 }
 
-/* Images & Overlap Container */
+/* ==========================================================================
+   Images & Overlap Container Ecosystem
+   ========================================================================== */
 .about__images {
   position: relative;
+  width: 100%;
+  max-width: 540px; /* Safe parent boundary containment */
+  margin: 0 auto;
   height: clamp(340px, 45vw, 500px);
   perspective: 1000px;
 }
@@ -28,13 +33,13 @@
 .about__images::before {
   content: "";
   position: absolute;
-  width: 340px;
-  height: 340px;
-  background: rgba(212,160,23,0.10);
+  width: 60%;
+  height: 60%;
+  background: rgba(212, 160, 23, 0.10);
   filter: blur(80px);
   border-radius: 50%;
-  top: 40px;
-  left: 40px;
+  top: 10%;
+  left: 10%;
   z-index: 0;
 }
 
@@ -48,9 +53,9 @@
   border-radius: 18px;
   z-index: 2;
   box-shadow:
-    0 12px 40px rgba(15,23,42,0.10),
-    0 2px 8px rgba(15,23,42,0.06);
-  transition: transform 0.6s cubic-bezier(0.25,1,0.5,1), box-shadow 0.6s ease;
+    0 12px 40px rgba(15, 23, 42, 0.10),
+    0 2px 8px rgba(15, 23, 42, 0.06);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
 }
 
 .about__img-primary img {
@@ -58,7 +63,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.25,1,0.5,1);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .about__img-secondary {
@@ -69,12 +74,12 @@
   height: 52%;
   overflow: hidden;
   border-radius: 18px;
-  border: 6px solid #ffffff; /* Removed broken variable reference to ensure baseline fallback works */
+  border: 6px solid #ffffff; 
   z-index: 3;
   box-shadow:
-    0 10px 28px rgba(15,23,42,0.10),
-    0 2px 6px rgba(15,23,42,0.05);
-  transition: transform 0.6s cubic-bezier(0.25,1,0.5,1), box-shadow 0.6s ease;
+    0 10px 28px rgba(15, 23, 42, 0.10),
+    0 2px 6px rgba(15, 23, 42, 0.05);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
 }
 
 .about__img-secondary img {
@@ -82,7 +87,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.25,1,0.5,1);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Hover Configurations */
@@ -102,10 +107,10 @@
 /* Floating Badge Element */
 .about__img-badge {
   position: absolute;
-  left: -20px;
-  bottom: 36%;
+  left: -10px; /* Safer relative boundary offset prevents breaking margins */
+  bottom: 25%;
   z-index: 4;
-  padding: 18px 22px;
+  padding: 16px 20px;
   border-radius: 18px;
   background: var(--clr-gold);
   color: var(--clr-charcoal);
@@ -113,31 +118,38 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  box-shadow: 0 10px 25px rgba(212,160,23,0.35);
+  box-shadow: 0 10px 25px rgba(212, 160, 23, 0.35);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   animation: floatBadge 4s ease-in-out infinite;
 }
 
 .about__img-badge-num {
   font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 800;
   line-height: 1;
 }
-.about__img-badge-num sup { font-size: 1.1rem; }
+.about__img-badge-num sup { font-size: 1rem; }
 
 .about__img-badge-text {
-  font-size: 0.65rem;
+  font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align: center;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
-/* Typography & Content Structure */
+/* ==========================================================================
+   Typography & Content Layout Specs
+   ========================================================================== */
+.about__content {
+  width: 100%; /* Guarantees strict boundary checks */
+  min-width: 0; /* Important fix for grid text overflows */
+}
+
 .about__eyebrow {
   display: flex;
   align-items: center;
@@ -164,16 +176,17 @@
 
 .about__title {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-size: clamp(1.75rem, 4vw, 2.6rem); /* Tuned minimum constraints safely */
   font-weight: 800;
-  line-height: 1.18;
-  letter-spacing: -0.03em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   color: var(--clr-charcoal);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
+  word-wrap: break-word; /* Prevents long titles from overflowing headers */
 }
 
 .about__title-sep {
-  margin: 0 6px;
+  margin: 0 4px;
   color: var(--clr-border);
   font-weight: 300;
 }
@@ -182,43 +195,41 @@
 .about__desc {
   margin-bottom: 16px;
   font-size: 1rem;
-  line-height: 1.9;
+  line-height: 1.8;
   color: var(--clr-mid);
 }
 
-/* Metrics Grid Tracking */
+/* Metrics Dashboard Grid Tracking */
 .about__metrics {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  margin: 32px 0 36px;
+  margin: 32px 0;
 }
 
 .about__metric {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  padding: 18px 16px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.82);
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(0,0,0,0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .about__metric:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   border-color: var(--clr-gold);
-  box-shadow: 0 16px 30px rgba(0,0,0,0.06);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
 }
 
 .about__metric-icon {
   color: var(--clr-gold);
   flex-shrink: 0;
-  transition: transform 0.3s ease;
 }
-.about__metric:hover .about__metric-icon { transform: scale(1.12) rotate(3deg); }
 
 .about__metric-label {
   margin-bottom: 3px;
@@ -232,166 +243,146 @@
 /* Bottom Action Elements Container */
 .about__footer {
   display: flex;
+  flex-direction: row; /* Keeps your action buttons lined up together */
   align-items: center;
-  flex-wrap: wrap;
-  gap: 16px; /* Reduced from 24px for tighter grouping when wrapping */
+  flex-wrap: wrap; /* Gracefully wraps on very narrow viewports (<360px) */
+  gap: 14px;
+  width: 100%;
+}
+
+.about__call,
+.hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 14px 24px; /* Unified padding boundaries */
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  white-space: nowrap; /* Prevents the inner button labels from breaking into 2 lines */
+  flex: 1; /* Makes both elements share horizontal row layouts perfectly! */
+  min-width: 140px; /* Safe viewport stacking breakpoint parameter */
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .about__call {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  padding: 14px 28px; /* Balanced padding metrics to match your buttons */
-  border-radius: 14px; /* Synchronized to match primary radius token specs */
   border: 1.5px solid var(--clr-charcoal);
   color: var(--clr-charcoal);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  background: transparent;
 }
 
 .about__call:hover {
   background: var(--clr-charcoal);
   color: var(--clr-white);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
-
-/* Action Button Overrides */
-.hero__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  padding: 14px 28px;
-  border-radius: 14px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), background-color 0.3s ease, box-shadow 0.3s ease;
-}
-.hero__btn svg { transition: transform 0.3s ease; }
 
 .hero__btn--primary {
   background: var(--clr-gold);
   color: var(--clr-charcoal);
-  box-shadow: 0 4px 14px rgba(212,160,23,0.1);
+  border: 1.5px solid var(--clr-gold);
 }
 
 .hero__btn--primary:hover {
   background: var(--clr-gold-lt);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(212,160,23,0.45);
+  border-color: var(--clr-gold-lt);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(212, 160, 23, 0.3);
 }
-.hero__btn--primary:hover svg { transform: translateX(4px); }
+.hero__btn--primary:hover svg { transform: translateX(3px); }
 
-/* Animation Classes */
-.scroll-reveal-left {
-  opacity: 0;
-  transform: translateX(-70px);
-  transition: opacity 0.95s cubic-bezier(0.16,1,0.3,1), transform 0.95s cubic-bezier(0.16,1,0.3,1);
-}
-
+/* Animation Elements Layout */
+.scroll-reveal-left,
 .scroll-reveal-up {
   opacity: 0;
-  transform: translateY(45px);
-  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.scroll-reveal-left { transform: translateX(-40px); }
+.scroll-reveal-up { transform: translateY(30px); }
 
-.about.is-revealed .scroll-reveal-left { opacity: 1; transform: translateX(0); }
-.about.is-revealed .scroll-reveal-up { opacity: 1; transform: translateY(0); }
+.about.is-revealed .scroll-reveal-left,
+.about.is-revealed .scroll-reveal-up { opacity: 1; transform: translate(0); }
 
 @keyframes floatBadge {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-6px); }
 }
 
 /* ==========================================================================
-   Comprehensive Responsive System Overrides
+   Comprehensive Responsive Overrides (Media Queries)
    ========================================================================== */
 
-/* Tablets / Small Laptops */
+/* Tablets / Medium Viewports */
 @media (max-width: 992px) {
   .about {
-    padding: 100px 24px;
+    padding: 80px 24px;
   }
   
   .about__inner {
-    grid-template-columns: 1fr; /* Stacks the layouts vertically */
-    gap: 60px;
+    grid-template-columns: 1fr; /* Stacks column clusters vertically */
+    gap: 56px;
   }
 
   .about__images {
-    max-width: 500px;
-    width: 100%;
-    margin: 0 auto;
-    height: 420px; /* Keeps overlap looking consistent when stacked */
+    height: 380px; /* Safe portrait proportion constraints */
   }
 }
 
-/* Handsets / Small Viewports */
-@media (max-width: 768px) {
+/* Mobile Viewports (Smartphones and Down) */
+@media (max-width: 576px) {
   .about {
-    padding: 80px 20px;
+    padding: 60px 16px; /* Optimized safety padding */
   }
 
-  .about__inner {
-    gap: 48px;
-  }
-
-  .about__footer {
-    flex-direction: column;
-    align-items: stretch; /* Forces buttons to span full width equally */
-    width: 100%;
-    gap: 12px;
-  }
-
-  .about__call,
-  .hero__btn {
-    width: 100%;
-    max-width: 100%;
-    justify-content: center;
-    box-sizing: border-box;
-  }
-  
-  /* Adjusted badge alignment token to prevent boundary overflow layout breaks */
-  .about__img-badge {
-    left: 10px; 
-    bottom: 15%;
-  }
-}
-
-/* Extra Small Mobile Devices */
-@media (max-width: 480px) {
   .about__title {
-    font-size: 1.85rem; /* Smoothed downward tracking bounds for small mobile displays */
-    line-height: 1.25;
+    font-size: 1.65rem; /* Dynamic downscaling for high-contrast mobile headers */
+    margin-bottom: 18px;
   }
 
   .about__metrics {
-    grid-template-columns: 1fr; /* Stacks column parameters sequentially */
+    grid-template-columns: 1fr; /* Stacks individual metrics panels smoothly */
     gap: 12px;
+    margin: 24px 0;
   }
 
   .about__images {
-    height: 300px; /* Scaling down safely to prevent overlapping breaks */
+    height: 300px; /* Prevents overlapping bounds scaling breaks */
   }
 
   .about__img-badge {
     padding: 10px 14px;
-    bottom: 10px;
-    left: 5px;
+    bottom: 8%;
+    left: 0; /* Keeps badge contained inside the mobile viewport edge */
   }
 
-  .about__img-badge-num {
-    font-size: 1.5rem;
+  .about__img-badge-num { font-size: 1.5rem; }
+  .about__img-badge-text { font-size: 0.55rem; }
+  
+  .about__footer {
+    gap: 10px; /* Snugs buttons closer together gracefully */
   }
   
-  .about__img-badge-text {
-    font-size: 0.6rem;
+  .about__call,
+  .hero__btn {
+    padding: 12px 16px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra Tight Mobile Viewports (<360px) */
+@media (max-width: 360px) {
+  .about__footer {
+    flex-direction: column; /* Ultimate layout fail-safe for extremely narrow screens */
+    align-items: stretch;
+  }
+  .about__call,
+  .hero__btn {
+    width: 100%;
   }
 }
