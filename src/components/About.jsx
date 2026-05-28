@@ -1,5 +1,3 @@
-
-
 import { useEffect, useRef } from "react";
 import "./About.css";
 
@@ -65,8 +63,8 @@ export default function About() {
         }
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -40px 0px"
+        threshold: 0.1, // Slightly lowered for faster triggering on smaller mobile viewports
+        rootMargin: "0px 0px -20px 0px"
       }
     );
 
@@ -81,7 +79,7 @@ export default function About() {
     <section className="about" id="about" ref={containerRef}>
       <div className="about__inner">
 
-        {/* Images */}
+        {/* Images Wrapper */}
         <div className="about__images scroll-reveal-left">
           <div className="about__img-primary">
             <img
@@ -98,9 +96,7 @@ export default function About() {
           </div>
 
           <div className="about__img-badge">
-            <span className="about__img-badge-num">
-              15<sup>+</sup>
-            </span>
+            <span className="about__img-badge-num">15+</span>
             <span className="about__img-badge-text">
               Years of <br />
               Excellence
@@ -108,77 +104,54 @@ export default function About() {
           </div>
         </div>
 
-        {/* Content */}
+        {/* Content Box */}
         <div className="about__content">
-
-          <div
-            className="about__eyebrow scroll-reveal-up"
-            style={{ transitionDelay: "0.1s" }}
-          >
+          <div className="about__eyebrow scroll-reveal-up" style={{ "--delay": "0.1s" }}>
             About SB PRO-AUDIO
           </div>
 
-          <h2
-            className="about__title scroll-reveal-up"
-            style={{ transitionDelay: "0.2s" }}
-          >
-            Quality
-            <span className="about__title-sep">|</span>
-            Commitment
-            <span className="about__title-sep">|</span>
-            <span className="about__title-accent">Innovation</span>
-          </h2>
+<h2 className="about__title scroll-reveal-up" style={{ "--delay": "0.2s" }}>
+  <span className="about__title-word">
+    Quality <span className="about__title-sep">|</span>
+  </span>
+  <span className="about__title-word">
+    Commitment <span className="about__title-sep">|</span>
+  </span>
+  <span className="about__title-accent">Innovation</span>
+</h2>
 
-          <p
-            className="about__desc scroll-reveal-up"
-            style={{ transitionDelay: "0.3s" }}
-          >
+          <p className="about__desc scroll-reveal-up" style={{ "--delay": "0.3s" }}>
             SB PRO-AUDIO is committed to delivering premium-grade professional
             audio systems with innovation, durability, and unmatched sound clarity.
             Inspired by modern pro-audio industry standards, we manufacture
             high-quality sound equipment designed for professional use across India.
           </p>
 
-          <p
-            className="about__desc scroll-reveal-up"
-            style={{ transitionDelay: "0.4s" }}
-          >
+          <p className="about__desc scroll-reveal-up" style={{ "--delay": "0.4s" }}>
             At SB PRO-AUDIO, we believe where performance meets perfection.
             Our sound systems are engineered to deliver unmatched power,
             versatility, and extraordinary sound clarity.
           </p>
 
-          {/* Metrics */}
+          {/* Metrics Grid */}
           <div className="about__metrics">
             {METRICS.map((m, index) => (
               <div
                 key={index}
                 className="about__metric scroll-reveal-up"
-                style={{ transitionDelay: `${0.5 + index * 0.1}s` }}
+                style={{ "--delay": `${0.5 + index * 0.08}s` }}
               >
-                <span className="about__metric-icon">
-                  {m.icon}
-                </span>
-
+                <span className="about__metric-icon">{m.icon}</span>
                 <div>
-                  <div className="about__metric-label">
-                    {m.label}
-                  </div>
-
-                  <div className="about__metric-sub">
-                    {m.sub}
-                  </div>
+                  <div className="about__metric-label">{m.label}</div>
+                  <div className="about__metric-sub">{m.sub}</div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Footer */}
-          <div
-            className="about__footer scroll-reveal-up"
-            style={{ transitionDelay: "0.9s" }}
-          >
-
+          {/* Footer Call-to-Actions */}
+          <div className="about__footer scroll-reveal-up" style={{ "--delay": "0.8s" }}>
             <a href="tel:7057500369" className="about__call">
               <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
                 <path
@@ -188,14 +161,12 @@ export default function About() {
                   strokeLinejoin="round"
                 />
               </svg>
-
-              7057500369 / 9822640732
+              <span>7057500369 / 9822640732</span>
             </a>
 
             <div className="hero__actions">
-              <a href="#products" className="hero__btn hero__btn--primary">
+              <a href="#products" className="hero__btn--primary">
                 Explore Products
-
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path
                     d="M3 8h10M9 4l4 4-4 4"
@@ -214,4 +185,3 @@ export default function About() {
     </section>
   );
 }
-
