@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap');
 
-/* ── CSS VARIABLES (shared across all components) ── */
+/* ── CSS VARIABLES ── */
 :root {
   --clr-white:    #ffffff;
   --clr-offwhite: #f9f9f9;
@@ -22,7 +22,11 @@
   --shadow-lg:    0 16px 64px rgba(0,0,0,0.16);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
 html { scroll-behavior: smooth; }
 
@@ -33,7 +37,7 @@ body {
   line-height: 1.6;
 }
 
-/* ── NAVBAR ── */
+/* ── NAVBAR LAYOUT ── */
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -41,6 +45,7 @@ body {
   height: var(--nav-h);
   background: rgba(255,255,255,0.92);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* Fixes Safari/iOS support gaps */
   border-bottom: 1px solid transparent;
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
@@ -70,14 +75,10 @@ body {
   line-height: 1;
 }
 
-.navbar__brand-sb {
-  color: var(--clr-gold);
-}
+.navbar__brand-sb { color: var(--clr-gold); }
+.navbar__brand-rest { color: var(--clr-charcoal); }
 
-.navbar__brand-rest {
-  color: var(--clr-charcoal);
-}
-
+/* DESKTOP LINKS GRID */
 .navbar__links {
   display: flex;
   align-items: center;
@@ -122,15 +123,17 @@ body {
   transform: translateY(-1px);
 }
 
-/* ── BURGER ── */
+/* ── INTERACTIVE BURGER MENU ── */
 .navbar__burger {
   display: none;
   flex-direction: column;
+  justify-content: center;
   gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
+  z-index: 1001; /* Keeps icon layered clearly over overlay plates */
 }
 
 .navbar__burger span {
@@ -139,33 +142,91 @@ body {
   height: 2px;
   background: var(--clr-charcoal);
   border-radius: 2px;
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition);
   transform-origin: center;
 }
 
+/* Clean Cross (X) animations when toggled active */
 .navbar__burger--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .navbar__burger--open span:nth-child(2) { opacity: 0; }
 .navbar__burger--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* ── MOBILE ── */
-@media (max-width: 768px) {
-  .navbar__burger { display: flex; }
 
-  .navbar__links {
-    display: none;
-    position: absolute;
-    top: var(--nav-h);
-    left: 0; right: 0;
-    flex-direction: column;
-    background: var(--clr-white);
-    border-bottom: 2px solid var(--clr-gold);
-    padding: 20px 28px 28px;
-    gap: 4px;
-    box-shadow: var(--shadow-md);
+/* ==========================================================================
+   Responsive Overrides Blueprint
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .navbar__inner {
+    padding: 0 20px; /* Snugs spacing boundaries cleanly on smaller width screens */
   }
 
-  .navbar__links--open { display: flex; }
+  .navbar__burger { 
+    display: flex; 
+  }
 
-  .navbar__link { width: 100%; padding: 10px 4px; font-size: 1rem; }
-  .navbar__cta { width: 100%; text-align: center; margin-left: 0; margin-top: 8px; padding: 12px; }
+  /* Swapped out abrupt visibility blocks for smooth transitions.
+     Uses max-height bounding limits to accommodate tall menu items gracefully.
+  */
+  .navbar__links {
+    display: flex;
+    position: absolute;
+    top: var(--nav-h);
+    left: 0; 
+    right: 0;
+    flex-direction: column;
+    background: var(--clr-white);
+    border-bottom: 3px solid var(--clr-gold);
+    padding: 24px 20px 28px;
+    gap: 8px;
+    box-shadow: var(--shadow-md);
+    
+    /* Performance Transform Handles */
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    max-height: calc(100vh - var(--nav-h));
+    overflow-y: auto; /* Activates internal scrolling if link counts exceed device heights */
+    -webkit-overflow-scrolling: touch;
+    
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  /* Triggers active container animations smoothly */
+  .navbar__links--open { 
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .navbar__link { 
+    width: 100%; 
+    padding: 12px 8px; 
+    font-size: 1.05rem; 
+    border-radius: var(--radius);
+    box-sizing: border-box;
+  }
+  
+  .navbar__link:hover {
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  .navbar__cta { 
+    width: 100%; 
+    text-align: center; 
+    margin-left: 0; 
+    margin-top: 12px; 
+    padding: 14px; 
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    box-shadow: 0 4px 14px rgba(212, 160, 23, 0.2);
+  }
+}
+
+/* Micro Device Compensation Layouts (iPhone SE / Fold profiles) */
+@media (max-width: 360px) {
+  .navbar__brand {
+    font-size: 1.45rem; /* Scales brand text to prevent burger icon overlaps */
+  }
 }

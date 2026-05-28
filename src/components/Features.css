@@ -1,278 +1,3 @@
-/* .features {
-  position: relative;
-  padding: 120px 28px;
-  background: linear-gradient(
-    to bottom,
-    var(--clr-white) 0%,
-    #f8f9fc 100%
-  );
-  overflow: hidden;
-}
-
-.features::before {
-  content: "";
-  position: absolute;
-  top: -120px;
-  left: -120px;
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(
-    circle,
-    rgba(212, 160, 23, 0.08) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-.features::after {
-  content: "";
-  position: absolute;
-  bottom: -140px;
-  right: -120px;
-  width: 340px;
-  height: 340px;
-  background: radial-gradient(
-    circle,
-    rgba(212, 160, 23, 0.05) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-.features__inner {
-  position: relative;
-  z-index: 2;
-  max-width: 1240px;
-  margin: 0 auto;
-}
-
-
-.features__header {
-  text-align: center;
-  max-width: 760px;
-  margin: 0 auto 72px;
-}
-
-.features__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--clr-gold);
-}
-
-.features__eyebrow::before,
-.features__eyebrow::after {
-  content: "";
-  width: 28px;
-  height: 2px;
-  background: var(--clr-gold);
-}
-
-.features__title {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  line-height: 1.1;
-  color: var(--clr-charcoal);
-  letter-spacing: -0.02em;
-  margin-bottom: 18px;
-}
-
-.features__title span {
-  color: var(--clr-gold);
-}
-
-.features__subtitle {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: var(--clr-muted);
-}
-
-
-.features__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-}
-
-
-.features__card {
-  position: relative;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(211, 203, 41, 0.7);
-  border-radius: 28px;
-  padding: 42px 32px;
-  text-align: center;
-  overflow: hidden;
-  min-height: 285px;
-
-  box-shadow:
-    0 10px 30px rgba(15, 23, 42, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-
-  transition:
-    transform 1s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.45s ease,
-    border-color 0.45s ease;
-}
-
-.features__card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,0.55),
-      rgba(255,255,255,0.08)
-    );
-  pointer-events: none;
-}
-
-.features__card:hover {
-  transform: translateY(-10px);
-  border-color: rgba(212, 160, 23, 0.35);
-
-  box-shadow:
-    0 24px 50px rgba(15, 23, 42, 0.09),
-    0 10px 24px rgba(212, 160, 23, 0.08);
-}
-
-.features__icon-wrap {
-  width: 82px;
-  height: 82px;
-  margin: 0 auto 28px;
-  border-radius: 24px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(212,160,23,0.16),
-      rgba(212,160,23,0.06)
-    );
-
-  border: 1px solid rgba(212,160,23,0.14);
-
-  transition:
-    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    background 0.4s ease;
-}
-
-.features__card:hover .features__icon-wrap {
-  transform: scale(1.08) rotate(4deg);
-  background:
-    linear-gradient(
-      135deg,
-      rgba(212,160,23,0.22),
-      rgba(212,160,23,0.08)
-    );
-}
-
-.features__icon {
-  font-size: 2.3rem;
-  line-height: 1;
-}
-
-.features__card-title {
-  font-family: var(--font-display);
-
-  font-size: 1.45rem;
-  line-height: 1.3;
-  font-weight: 700;
-  color: var(--clr-charcoal);
-  margin-bottom: 16px;
-}
-
-.features__card-desc {
-  font-size: 0.97rem;
-  line-height: 1.8;
-  color: var(--clr-muted);
-}
-
-.features__card-glow {
-  position: absolute;
-  inset: auto;
-  width: 180px;
-  height: 180px;
-  bottom: -90px;
-  right: -70px;
-
-  background: radial-gradient(
-    circle,
-    rgba(212,160,23,0.12),
-    transparent 70%
-  );
-
-  opacity: 1;
-  transition: opacity 0.45s ease;
-}
-
-.features__card:hover .features__card-glow {
-  opacity: 1;
-}
-
-
-.reveal-up {
-  opacity: 1;
-  transform: translateY(45px);
-  transition:
-    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1s cubic-bezier(0.32, 2, 0.6, 2);
-}
-
-.features.is-revealed .reveal-up {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-@media (max-width: 1024px) {
-  .features__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 680px) {
-  .features {
-    padding: 90px 20px;
-  }
-
-  .features__grid {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  .features__card {
-    padding: 34px 24px;
-    border-radius: 24px;
-    min-height: auto;
-  }
-
-  .features__icon-wrap {
-    width: 72px;
-    height: 72px;
-    margin-bottom: 24px;
-  }
-
-  .features__card-title {
-    font-size: 1.3rem;
-  }
-}  */
-
-
-
-/* 1. Added explicit fallback roots to guarantee colors render safely */
 :root {
   --clr-white: #ffffff;
   --clr-gold: #d4a017;
@@ -292,6 +17,7 @@
   overflow: hidden;
 }
 
+/* DECORATIVE AMBIENT BLURS */
 .features::before {
   content: "";
   position: absolute;
@@ -329,7 +55,7 @@
   margin: 0 auto;
 }
 
-/* Header */
+/* HEADER STRUCTURE */
 .features__header {
   text-align: center;
   max-width: 760px;
@@ -360,7 +86,7 @@
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.2; /* Adjusted from 1.1 to prevent intersecting line clipping on multi-line headers */
   color: var(--clr-charcoal);
   letter-spacing: -0.02em;
   margin-bottom: 18px;
@@ -376,36 +102,33 @@
   color: var(--clr-muted);
 }
 
-/* Grid */
+/* MAIN GRID LAYOUT */
 .features__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
 }
 
-/* Card Wrapper to isolate the Reveal Transform from the Hover Transform */
+/* PERFORMANCE WRAPPER */
 .features__card-wrapper {
   will-change: transform, opacity;
 }
 
-/* Card */
+/* CARDS CORE STRUCTURE */
 .features__card {
   position: relative;
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(211, 203, 41, 0.7);
+  border: 1px solid rgba(211, 203, 41, 0.25); /* Adjusted down opacity to match typical modern frame profiles */
   border-radius: 28px;
   padding: 42px 32px;
   text-align: center;
   overflow: hidden;
   min-height: 285px;
-
   box-shadow:
     0 10px 30px rgba(15, 23, 42, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
-
-  /* 2. Tuned down transition time from 1s to 0.4s for a snappier response */
   transition:
     transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.45s ease,
@@ -428,31 +151,27 @@
 .features__card:hover {
   transform: translateY(-10px);
   border-color: rgba(212, 160, 23, 0.35);
-
   box-shadow:
     0 24px 50px rgba(15, 23, 42, 0.09),
     0 10px 24px rgba(212, 160, 23, 0.08);
 }
 
+/* ICON GRAPHICS FRAMEWORK */
 .features__icon-wrap {
   width: 82px;
   height: 82px;
   margin: 0 auto 28px;
   border-radius: 24px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   background:
     linear-gradient(
       135deg,
       rgba(212,160,23,0.16),
       rgba(212,160,23,0.06)
     );
-
   border: 1px solid rgba(212,160,23,0.14);
-
   transition:
     transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
     background 0.4s ease;
@@ -477,8 +196,7 @@
   font-family: var(--font-display);
   font-size: 1.45rem;
   line-height: 1.3;
-  font-weight: 800;
-  /* color: var(--clr-charcoal); */
+  font-weight: 750;
   color: #0f172a;
   margin-bottom: 16px;
 }
@@ -489,6 +207,7 @@
   color: var(--clr-muted);
 }
 
+/* ELEMENT HIGHLIGHT SPOTLIGHTS */
 .features__card-glow {
   position: absolute;
   inset: auto;
@@ -496,25 +215,22 @@
   height: 180px;
   bottom: -90px;
   right: -70px;
-
   background: radial-gradient(
     circle,
     rgba(212,160,23,0.12),
     transparent 70%
   );
-
-  /* 3. Changed default opacity to 0 so the fade-in logic works */
   opacity: 0;
   transition: opacity 0.45s ease;
+  pointer-events: none;
 }
 
 .features__card:hover .features__card-glow {
   opacity: 1;
 }
 
-/* Scroll Reveal */
+/* ENGINE-DRIVEN ANIMATION REVEALS */
 .reveal-up {
-  /* 4. Changed opacity to 0 so elements are hidden before scroll triggers */
   opacity: 0;
   transform: translateY(40px);
   transition:
@@ -527,47 +243,102 @@
   transform: translateY(0);
 }
 
-/* Responsive */
+/* ==========================================================================
+   Responsive Adaptation System
+   ========================================================================== */
+
+/* Medium-Sized Displays & Wide Viewports */
 @media (max-width: 1024px) {
+  .features {
+    padding: 100px 24px;
+  }
+
   .features__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* 2-column balance check */
+    gap: 24px;
+  }
+  
+  .features__header {
+    margin-bottom: 54px;
   }
 }
 
+/* Tablets / Medium Mobile Viewports */
+@media (max-width: 768px) {
+  .features {
+    padding: 90px 20px;
+  }
+
+  .features__header {
+    margin-bottom: 40px;
+  }
+
+  .features__title {
+    font-size: 1.85rem;
+  }
+}
+
+/* Smartphones & Small Handset Architectures */
 @media (max-width: 680px) {
-  /* 5. Disabled animations on mobile screens to save hardware performance */
+  /* Safely bypassing runtime animation logic scripts on slow mobile devices */
   .reveal-up {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
   }
   
+  /* Cleans up standard card transform parameters to prevent sticky mobile hover touch cycles */
   .features__card:hover {
     transform: none !important;
+    border-color: rgba(211, 203, 41, 0.25) !important;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05) !important;
   }
 
-  .features {
-    padding: 90px 20px;
+  /* Cleans up the nested micro-transforms inside cards so everything is synchronized */
+  .features__card:hover .features__icon-wrap {
+    transform: none !important;
+  }
+  
+  .features__card:hover .features__card-glow {
+    opacity: 0 !important;
   }
 
   .features__grid {
-    grid-template-columns: 1fr;
-    gap: 22px;
+    grid-template-columns: 1fr; /* Single column flow stack */
+    gap: 16px;
   }
 
   .features__card {
     padding: 34px 24px;
     border-radius: 24px;
-    min-height: auto;
+    min-height: auto; /* Drops unnecessary empty space constraints */
   }
 
   .features__icon-wrap {
     width: 72px;
     height: 72px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+  }
+
+  .features__icon {
+    font-size: 2rem;
   }
 
   .features__card-title {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+  }
+
+  .features__card-desc {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+}
+
+/* Ultra-Compact viewports (iPhone SE/Fold layouts) */
+@media (max-width: 360px) {
+  .features__eyebrow::before,
+  .features__eyebrow::after {
+    width: 16px; /* Scales down lines to fit title layouts nicely */
   }
 }

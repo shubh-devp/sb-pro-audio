@@ -1,206 +1,160 @@
 require("dotenv").config();
-
 const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
 
+// 1. STABLE PRODUCTION CORS POLICY
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://sb-pro-audio-1.onrender.com"
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://sb-pro-audio-1.onrender.com",
-    ],
-
-    methods: ["GET", "POST"],
-
-    allowedHeaders: ["Content-Type"],
-
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        return callback(new Error("The CORS policy for this site does not allow access from the specified Origin."), false);
+      }
+      return callback(null, true);
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
-app.options('{*splat}', cors());
+
 app.use(express.json());
 
+// 2. ANTI-SPAM RATE LIMITING (Max 5 contact requests per 15 mins per IP)
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 5, 
+  message: {
+    success: false,
+    message: "Too many requests from this IP, please try again after 15 minutes."
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 /* ---------------- MAIL TRANSPORTER ---------------- */
-
+// Enhanced configuration profile for production SMTP stability
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // Use SSL/TLS
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  pool: true, // Uses pooled connections for snappier deliveries
 });
 
-
-
-/* Verify transporter connection */
-
+// Verify connection state smoothly
 transporter.verify((error, success) => {
   if (error) {
-    console.log("MAIL ERROR:");
-    console.log(error);
-    console.log(error.message);
+    console.error("Transporter connection validation failed:", error.message);
   } else {
-    console.log("Mail server is ready");
+    console.log("Production Mail Delivery Engine Ready");
   }
 });
 
 /* ---------------- CONTACT API ---------------- */
-
-app.post("/api/contact", async (req, res) => {
+app.post("/api/contact", contactLimiter, async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
 
-    /* ---------------- VALIDATION ---------------- */
-
+    /* ---------------- VALIDATION & SANITIZATION ---------------- */
     if (!name || !email || !phone || !message) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: "All fields are required.",
       });
     }
 
-    /* ---------------- ADMIN EMAIL ---------------- */
+    // Basic regex checks to prevent header injection or garbage submissions
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter a valid email address.",
+      });
+    }
 
+    const cleanName = name.trim();
+    const cleanPhone = phone.trim();
+    const cleanMessage = message.trim();
+
+    /* ---------------- ADMIN NOTIFICATION ---------------- */
     const adminMail = {
-      from: `"SB PRO-AUDIO Website" <${process.env.EMAIL_USER}>`,
-
+      from: `"SB PRO-AUDIO Admin" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
-
       replyTo: email,
-
-      subject: `New Enquiry From ${name}`,
-
+      subject: `🚨 New Enquiry From ${cleanName}`,
       html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-          
-          <h2 style="color: #d4a017;">
-            New Contact Form Submission
-          </h2>
-
-          <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-            
-            <tr>
-              <td style="padding: 10px; border: 1px solid #ddd;">
-                <strong>Name</strong>
-              </td>
-
-              <td style="padding: 10px; border: 1px solid #ddd;">
-                ${name}
-              </td>
-            </tr>
-
-            <tr>
-              <td style="padding: 10px; border: 1px solid #ddd;">
-                <strong>Email</strong>
-              </td>
-
-              <td style="padding: 10px; border: 1px solid #ddd;">
-                ${email}
-              </td>
-            </tr>
-
-            <tr>
-              <td style="padding: 10px; border: 1px solid #ddd;">
-                <strong>Phone</strong>
-              </td>
-
-              <td style="padding: 10px; border: 1px solid #ddd;">
-                ${phone}
-              </td>
-            </tr>
-
-          </table>
-
-          <div style="margin-top: 25px;">
-            <h3>Requirements:</h3>
-
-            <p style="line-height: 1.7;">
-              ${message}
-            </p>
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #111;">
+          <h2 style="color: #d4a017; border-bottom: 1px solid #eee; padding-bottom: 10px;">New Contact Submission</h2>
+          <p><strong>Name:</strong> ${cleanName}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${cleanPhone}</p>
+          <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-left: 4px solid #d4a017;">
+            <h3>Message/Requirements:</h3>
+            <p style="white-space: pre-wrap; line-height: 1.6;">${cleanMessage}</p>
           </div>
-
         </div>
       `,
     };
 
-    /* ---------------- CUSTOMER AUTO REPLY ---------------- */
-
+    /* ---------------- CUSTOMER ACKNOWLEDGEMENT ---------------- */
     const customerMail = {
       from: `"SB PRO-AUDIO" <${process.env.EMAIL_USER}>`,
-
       to: email,
-
-      subject: "We Received Your Enquiry | SB PRO-AUDIO",
-
+      subject: "Enquiry Received | SB PRO-AUDIO",
       html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-
-          <h2 style="color: #d4a017;">
-            Thank You For Contacting SB PRO-AUDIO
-          </h2>
-
-          <p style="line-height: 1.8;">
-            Hi <strong>${name}</strong>,
-          </p>
-
-          <p style="line-height: 1.8;">
-            We have successfully received your enquiry.
-            Our team will contact you shortly.
-          </p>
-
-          <div style="
-            margin-top: 25px;
-            padding: 18px;
-            background: #f7f7f7;
-            border-radius: 8px;
-          ">
-            <h3>Your Submitted Details</h3>
-
-            <p><strong>Phone:</strong> ${phone}</p>
-            <p><strong>Email:</strong> ${email}</p>
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #111;">
+          <h2 style="color: #d4a017;">Thank You For Reaching Out!</h2>
+          <p>Hi <strong>${cleanName}</strong>,</p>
+          <p>We've successfully received your requirements. Our team will review the details and get back to you shortly.</p>
+          <div style="margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 6px;">
+            <h4 style="margin-top: 0;">Submission Snapshot:</h4>
+            <p style="margin: 4px 0;"><strong>Phone:</strong> ${cleanPhone}</p>
+            <p style="margin: 4px 0;"><strong>Email:</strong> ${email}</p>
           </div>
-
-          <p style="margin-top: 25px;">
-            Regards,<br />
-            <strong>SB PRO-AUDIO</strong>
-          </p>
-
+          <p style="font-size: 0.9rem; color: #666;">This is an automated confirmation. Please do not reply directly to this email.</p>
         </div>
       `,
     };
 
-    /* ---------------- SEND EMAILS ---------------- */
+    /* ---------------- PARALLELIZED DELIVERY ---------------- */
+    // Fires both operations simultaneously, cutting response lag in half!
+    await Promise.all([
+      transporter.sendMail(adminMail),
+      transporter.sendMail(customerMail)
+    ]);
 
-    await transporter.sendMail(adminMail);
-
-    await transporter.sendMail(customerMail);
-
-    /* ---------------- SUCCESS RESPONSE ---------------- */
-
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: "Message sent successfully",
+      message: "Message sent successfully!",
     });
 
   } catch (error) {
-    console.log("SERVER ERROR:");
-    console.log(error);
+    console.error("Production Core Server Mailer Error:", error);
 
-    res.status(500).json({
+    // Don't leak raw database/system errors to the client UI
+    return res.status(500).json({
       success: false,
-      message: "Failed to send message",
+      message: "An internal server error occurred while processing your request.",
     });
   }
 });
 
-/* ---------------- SERVER ---------------- */
-
+/* ---------------- SERVER STARTUP ---------------- */
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Production server securely handling operations on port ${PORT}`);
 });
