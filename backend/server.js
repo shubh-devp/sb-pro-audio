@@ -1,8 +1,15 @@
+
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 const rateLimit = require("express-rate-limit");
+
+// --- CRITICAL NETWORK FIX FOR EHOSTUNREACH ---
+// Forces Node.js to resolve domain lookup strings (like smtp.gmail.com) 
+// using IPv4 first, skipping faulty IPv6 environment configuration bridges.
+const dns = require("node:dns");
+dns.setDefaultResultOrder("ipv4first");
 
 const app = express();
 
@@ -48,6 +55,7 @@ const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
   secure: true, // Use SSL/TLS
+  family: 4,    // <-- FIXED: Explicitly forces Nodemailer socket layer to bind strictly to IPv4 
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -98,11 +106,11 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
       subject: `🚨 New Enquiry From ${cleanName}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #111;">
-          <h2 style="color: #d4a017; border-bottom: 1px solid #eee; padding-bottom: 10px;">New Contact Submission</h2>
+          <h2 style="color: #ff9f00; border-bottom: 1px solid #eee; padding-bottom: 10px;">New Contact Submission</h2>
           <p><strong>Name:</strong> ${cleanName}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${cleanPhone}</p>
-          <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-left: 4px solid #d4a017;">
+          <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-left: 4px solid #ff9f00;">
             <h3>Message/Requirements:</h3>
             <p style="white-space: pre-wrap; line-height: 1.6;">${cleanMessage}</p>
           </div>
@@ -117,7 +125,7 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
       subject: "Enquiry Received | SB PRO-AUDIO",
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #111;">
-          <h2 style="color: #d4a017;">Thank You For Reaching Out!</h2>
+          <h2 style="color: #ff9f00;">Thank You For Reaching Out!</h2>
           <p>Hi <strong>${cleanName}</strong>,</p>
           <p>We've successfully received your requirements. Our team will review the details and get back to you shortly.</p>
           <div style="margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 6px;">
@@ -131,7 +139,6 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
     };
 
     /* ---------------- PARALLELIZED DELIVERY ---------------- */
-    // Fires both operations simultaneously, cutting response lag in half!
     await Promise.all([
       transporter.sendMail(adminMail),
       transporter.sendMail(customerMail)
@@ -145,7 +152,6 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
   } catch (error) {
     console.error("Production Core Server Mailer Error:", error);
 
-    // Don't leak raw database/system errors to the client UI
     return res.status(500).json({
       success: false,
       message: "An internal server error occurred while processing your request.",

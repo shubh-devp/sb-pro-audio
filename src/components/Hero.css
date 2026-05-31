@@ -17,7 +17,7 @@
   z-index: 1;
 }
 
-/* Base Video Settings */
+
 .hero__bg-video {
   position: absolute;
   top: 50%;
@@ -31,7 +31,7 @@
   animation: cinematicSlowPan 24s ease-in-out infinite alternate;
 }
 
-/* Gradient Mask covering video track */
+
 .hero__bg-video-overlay {
   position: absolute;
   inset: 0;
@@ -104,7 +104,7 @@
 
 .hero__title {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 7vw, 6.5rem); /* Optimized lower bounds for tiny phone screens */
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -122,7 +122,7 @@
 
 .hero__subtitle {
   font-family: var(--font-display);
-  font-size: clamp(1rem, 2.2vw, 1.5rem); /* Scaled down slightly for mobile */
+  font-size: clamp(1rem, 2.2vw, 1.5rem); 
   font-weight: 400;
   letter-spacing: 0.06em;
   color: rgba(255,255,255,0.55);
@@ -150,13 +150,14 @@
   gap: 14px;
   margin-bottom: 60px;
   opacity: 0;
+  max-width: 560px;
   animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
 }
 
 .hero__btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center; /* Center handles responsive button wrapping better */
+  justify-content: center; 
   gap: 8px;
   text-decoration: none;
   font-family: var(--font-body);
@@ -181,6 +182,8 @@
   background: var(--clr-gold);
   color: var(--clr-charcoal);
   box-shadow: 0 4px 14px rgba(212,160,23,0.1);
+  
+  
 }
 
 .hero__btn--primary:hover {
@@ -194,7 +197,7 @@
   background: transparent;
   color: var(--clr-white);
   border: 1.5px solid rgba(255,255,255,0.25);
-  /* Fixed a layout bug here: removed uneven hardcoded margin-top and height overrides */
+ 
 }
 
 .hero__btn--call:hover {
@@ -264,13 +267,13 @@
   animation: waveAnim 1.2s ease-in-out infinite alternate;
 }
 
-/* Kinetic Motion Keyframes for Video Background */
+
 @keyframes cinematicSlowPan {
   0% { transform: translate(-50%, -50%) scale(1.0); }
   100% { transform: translate(-49%, -51%) scale(1.06); }
 }
 
-/* Keyframe Animations */
+
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
@@ -286,19 +289,15 @@
   100% { box-shadow: 0 0 14px var(--clr-gold), 0 0 4px var(--clr-gold); }
 }
 
-/* ==========================================================================
-   Responsive Overrides & Media Queries
-   ========================================================================== */
 
-/* Tablet & Smaller Screens */
 @media (max-width: 992px) {
   .hero__wave {
     right: 40px;
-    opacity: 0.15; /* Subtly dim visualizer so text stays clear on medium viewports */
+    opacity: 0.15; 
   }
 }
 
-/* Mobile Screens (Matches your initial design specs) */
+
 @media (max-width: 768px) {
   .hero {
     padding: calc(var(--nav-h) + 40px) 20px 60px;
@@ -314,7 +313,7 @@
     width: 100%;
   }
 
-  /* Full width buttons look significantly cleaner on smartphones */
+
   .hero__btn {
     width: 100%;
     max-width: 320px;
@@ -326,20 +325,19 @@
     flex-direction: row; 
   }
 
-  .hero__wave { display: none; } /* Completely drop heavy absolute layouts for performance */
-  
+  .hero__wave { display: none; } 
   .hero__stat-divider { 
     width: 1px; 
     height: 30px; 
   }
 
-  /* Solid overlay layer replaces light gradient track so text remains 100% readable */
+ 
   .hero__bg-video-overlay {
     background: rgba(11, 11, 11, 0.75);
   }
 }
 
-/* Tiny Smartphone Optimizations */
+
 @media (max-width: 480px) {
   .hero__stats {
     flex-direction: column;
@@ -351,3 +349,7 @@
     height: 1px;
   }
 }
+
+
+
+
