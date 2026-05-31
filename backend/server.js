@@ -53,8 +53,9 @@ const contactLimiter = rateLimit({
 // Enhanced configuration profile for production SMTP stability
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // Use SSL/TLS
+  port: 587,
+  secure: false,
+  requireTLS: true, // Use SSL/TLS
   family: 4,    // <-- FIXED: Explicitly forces Nodemailer socket layer to bind strictly to IPv4 
   auth: {
     user: process.env.EMAIL_USER,
